@@ -2,6 +2,8 @@
 
 Dotfiles I use, only uploading the ones I configured.  
 
+I mostly use zsh, I barely use bash. I uploaded bashrc & bash_profile mostly for posterity.  
+
 Managed with [Dotbot](https://github.com/anishathalye/dotbot)
 
 ## Installation

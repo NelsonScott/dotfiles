@@ -4,7 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="af-magic"
 ENABLE_CORRECTION="true"
-plugins=(git colored-man-pages colorize rand-quote battery)
+plugins=(git colored-man-pages colorize rand-quote battery thefuck)
 # User configuration
 source $ZSH/oh-my-zsh.sh
 autoload zmv
@@ -117,3 +117,46 @@ function path() {
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+
+##### SRE changes for saml2aws
+# we are not multi-region yet
+export AWS_DEFAULT_REGION=us-east-1
+
+# account IDs (copied from the AWS Okta tile sign in, if you have more/others)
+export PCYCLE=106877218800
+export PPROD=386675210126
+export PSTAGE=486598304777
+export PTEST=152245890419
+export TKITCH=048438595429
+export PES1=429007243955
+
+# prefer to get push notifications (switch to Passcode if you like)
+export FORCE_MFA="Duo Push"
+
+# login to an account if necessary
+s2al () { saml2aws login --skip-prompt --profile=${1} --duo-mfa-option "${FORCE_MFA}" --role="arn:aws:iam::${2}:role/test-infra"; }
+# inject the active credentials for an account into your env
+s2a () { eval $(saml2aws script --shell=bash --skip-prompt --profile=${1}); }
+# shortcut to remember who you are (and which account you are in)
+awho () { aws sts get-caller-identity; }
+
+# these are the aliases to trigger login (if necessary)
+alias apc="s2al pc ${PCYCLE}"
+alias atest="s2al test ${PTEST}"
+alias astage="s2al stage ${PSTAGE}"
+alias aprod="s2al prod ${PPROD}"
+
+# these are the aliases to trigger account switch
+alias spc="s2a pc"
+alias stest="s2a test"
+alias sstage="s2a stage"
+alias sprod="s2a prod"
+
+# these are the aliases to trigger account login (if necessary) and switch
+alias jpc="s2al pc ${PCYCLE} && s2a pc"
+alias jtest="s2al test ${PTEST} && s2a test"
+alias jstage="s2al stage ${PSTAGE} && s2a stage"
+alias jprod="s2al prod ${PPROD} && s2a prod"
+
+eval $(thefuck --alias)

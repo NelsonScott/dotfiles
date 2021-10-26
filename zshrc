@@ -43,7 +43,7 @@ export PATH="$GOROOT/bin:$PATH"
 
 
 # App Configs
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # Handy functions on the terminal
 function remind() {

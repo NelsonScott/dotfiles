@@ -22,7 +22,7 @@ alias ccat="colorize"
 alias please='sudo $(fc -ln -1)'
 alias dc='docker-compose'
 alias nuke_mk='kubectl delete --all pods --namespace=default && kubectl delete --all deployments --namespace=default && kubectl delete --all services'
-
+# alias chatgpt='mods'
 # Applications
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
@@ -54,7 +54,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/Users/scottnelson/Library/Android/sdk/platform-tools/:$PATH"
 
 # App Configs
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # Handy functions on the terminal
 function remind() {

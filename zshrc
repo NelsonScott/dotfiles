@@ -10,6 +10,9 @@ source $ZSH/oh-my-zsh.sh
 autoload zmv
 export RPROMPT="%D{%I:%M:%S}"
 cowsay -f $(cowsay -l | tail -n +2 | tr  " "  "\n" | sort -R | head -n 1) $(motivate) |  lolcat
+# Private local keys
+## e.g. openai api
+source ~/Documents/dotfiles/.env
 
 # Aliases
 alias cpwd="pwd | tr -d '\n' | pbcopy"

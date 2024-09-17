@@ -10,6 +10,9 @@ source $ZSH/oh-my-zsh.sh
 autoload zmv
 export RPROMPT="%D{%I:%M:%S}"
 cowsay -f $(cowsay -l | tail -n +2 | tr  " "  "\n" | sort -R | head -n 1) $(motivate) |  lolcat
+# Private local keys
+## e.g. openai api
+source ~/Documents/dotfiles/.env
 
 # Aliases
 alias cpwd="pwd | tr -d '\n' | pbcopy"
@@ -34,6 +37,8 @@ export PATH="/usr/local/opt/cassandra@2.1/bin:/usr/local/opt/cassandra@2.1/bin:/
 export PATH="/usr/local/opt/postgresql@9.5/bin:/usr/local/opt/postgresql@9.5/bin:/usr/local/opt/cassandra@2.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/Library/Python/3.11/bin:$PATH"
 
 ## for go lang
 export GOPATH=$HOME/go-workspace # don't forget to change your path correctly!
@@ -41,6 +46,12 @@ export GOROOT=/usr/local/opt/go/libexec
 export PATH="$GOPATH/bin:$PATH"
 export PATH="$GOROOT/bin:$PATH"
 
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Android
+## Make ADB available
+export PATH="/Users/scottnelson/Library/Android/sdk/platform-tools/:$PATH"
 
 # App Configs
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
@@ -74,6 +85,7 @@ notify_done() {
 alias gdfs="git df $(git rev-parse --abbrev-ref HEAD) stash@{0}"
 alias gpl='git pull'
 alias master='git co master'
+alias recent_branches='git branch --sort=-committerdate'
 
 function fast_c() {
   git co -b scott.new-branch.$(date +"%Y-%m-%d-%s")
@@ -94,8 +106,37 @@ function path() {
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-
-# SRE changes for saml2aws
-source ~/.sre-saml2aws 2> /dev/null
-
 eval $(thefuck --alias)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/opt/homebrew/opt/opencv@3/bin:$PATH"
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+# Dotnet 
+export PATH=$PATH:/usr/local/share/dotnet
+# Add .NET Core SDK tools
+export PATH="$PATH:/Users/scottnelson/.dotnet/tools"
+
+# Bluetooth
+function connect() {
+    local device_address
+
+    if [[ -z "$1" ]]; then
+        echo "Usage: connect <device_name>"
+    else
+        case "$1" in
+            logi)
+                device_address="10-94-97-39-12-f3" ;;
+            jbl)
+                device_address="d8-37-3b-15-08-e3" ;;
+            *)
+                echo "Device '$1' not recognized." ;;
+        esac
+
+        if [[ -n "$device_address" ]]; then
+            blueutil --connect "$device_address"
+        fi
+    fi
+}

@@ -136,6 +136,7 @@ function connect() {
         esac
 
         if [[ -n "$device_address" ]]; then
+            blueutil --disconnect "$device_address" && \
             blueutil --connect "$device_address"
         fi
     fi

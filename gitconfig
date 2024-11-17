@@ -1,7 +1,7 @@
 [credential]
 	helper = cache
 [user]
-	email = scott.nelson@onepeloton
+	email = scottdnelson.coffee@gmail.com
 	name = Scott Nelson
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot

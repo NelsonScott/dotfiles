@@ -22,7 +22,7 @@ alias ccat="colorize"
 alias please='sudo $(fc -ln -1)'
 alias dc='docker-compose'
 alias nuke_mk='kubectl delete --all pods --namespace=default && kubectl delete --all deployments --namespace=default && kubectl delete --all services'
-# alias chatgpt='mods'
+alias chatgpt='mods'
 # Applications
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
@@ -108,9 +108,12 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 eval $(thefuck --alias)
 
+# Manage nvm with homebrew
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+
+# OpenCV
 export PATH="/opt/homebrew/opt/opencv@3/bin:$PATH"
 export JAVA_HOME=$(/usr/libexec/java_home)
 

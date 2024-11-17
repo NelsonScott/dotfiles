@@ -51,7 +51,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # Android
 ## Make ADB available
-export PATH="/Users/scottnelson/Library/Android/sdk/platform-tools/:$PATH"
+export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 
 # App Configs
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
@@ -120,7 +120,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 # Dotnet 
 export PATH=$PATH:/usr/local/share/dotnet
 # Add .NET Core SDK tools
-export PATH="$PATH:/Users/scottnelson/.dotnet/tools"
+export PATH="$PATH:$HOME/.dotnet/tools"
 
 # Bluetooth
 function connect() {

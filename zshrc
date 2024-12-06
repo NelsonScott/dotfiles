@@ -144,6 +144,7 @@ function connect() {
         fi
     fi
 }
+#!/bin/zsh
 
 search() {
     # Default settings
@@ -156,10 +157,10 @@ search() {
 
     # Parse options
     local OPTIND
-    while getopts ":he:nc" opt; do
+    while getopts ":henc" opt; do
         case ${opt} in
             h )
-                echo "Usage: search [-h] [--everywhere] [-n] [-c] <phrase>"
+                echo "Usage: search [-h] [-e] [-n] [-c] <phrase>"
                 echo "  -h: Help/show this message"
                 echo "  -e: Search entire system"
                 echo "  -n: Filenames only"
@@ -191,6 +192,15 @@ search() {
         return 1
     fi
     phrase="$1"
+
+    # Set final search scope and type based on flags
+    if $filenames_only; then
+        search_type="filenames"
+    fi
+
+    if $everywhere; then
+        search_scope="entire system"
+    fi
 
     # Print search context
     local case_text="case-insensitive"
@@ -233,6 +243,7 @@ search() {
 
     # Execute and display command
     local results
+    echo "Running command: $cmd"
     results=$(eval "$cmd")
 
     # If not searching filenames, add highlighting

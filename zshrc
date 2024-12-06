@@ -144,7 +144,6 @@ function connect() {
         fi
     fi
 }
-#!/bin/zsh
 
 search() {
     # Default settings
@@ -193,20 +192,8 @@ search() {
     fi
     phrase="$1"
 
-    # Set final search scope and type based on flags
-    if $filenames_only; then
-        search_type="filenames"
-    fi
-
-    if $everywhere; then
-        search_scope="entire system"
-    fi
-
     # Print search context
-    local case_text="case-insensitive"
-    if $case_sensitive; then
-        case_text="case-sensitive"
-    fi
+    local case_text=$($case_sensitive && echo "case-sensitive" || echo "case-insensitive")
     echo "🔍 Searching $search_type in $search_scope ($case_text) for: '$phrase'"
 
     # Build command

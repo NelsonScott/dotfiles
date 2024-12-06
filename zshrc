@@ -144,3 +144,79 @@ function connect() {
         fi
     fi
 }
+
+search() {
+    # Default settings
+    local phrase=""
+    local everywhere=false
+    local filenames_only=false
+    local search_scope="current directory"
+    local search_type="file contents"
+
+    # Parse options
+    local OPTIND
+    while getopts ":he:n" opt; do
+        case ${opt} in
+            h )
+                echo "Usage: search [-h] [--everywhere] [-n] <phrase>"
+                echo "  -h: Help/show this message"
+                echo "  --everywhere: Search entire system"
+                echo "  -n: Filenames only"
+                return 0
+                ;;
+            e )
+                everywhere=true
+                search_scope="entire system"
+                ;;
+            n )
+                filenames_only=true
+                search_type="filenames"
+                ;;
+            \? )
+                echo "Invalid option: $OPTARG" 1>&2
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
+    # Validate input
+    if [[ $# -eq 0 ]]; then
+        echo "Error: Search phrase is required. Use -h for help." 1>&2
+        return 1
+    fi
+    phrase="$1"
+
+    # Print search context
+    echo "🔍 Searching $search_type in $search_scope for: '$phrase'"
+
+    # Build command
+    local cmd=""
+    if $filenames_only; then
+        if $everywhere; then
+            cmd="locate '$phrase'"
+        else
+            cmd="find . -type f -iname '*$phrase*'"
+        fi
+    else
+        if $everywhere; then
+            cmd="find / -type f -print0 | xargs -0 grep -l -n '$phrase'"
+        else
+            cmd="find . -type f -print0 | xargs -0 grep -l -n '$phrase'"
+        fi
+    fi
+
+    # Execute and display command
+    local results
+    results=$(eval "$cmd")
+
+    # If not searching filenames, add highlighting
+    if [[ "$filenames_only" == "false" ]]; then
+        echo "$results" | while read -r file; do
+            echo -e "\n📄 $file:"
+            grep -n "$phrase" "$file" | sed "s/$phrase/\x1b[1;31m$phrase\x1b[0m/g"
+        done
+    else
+        echo "$results"
+    fi
+}

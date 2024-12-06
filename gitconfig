@@ -57,3 +57,4 @@
 	rebase = false
 [hub]
 	protocol = ssh
+	defaultBranch = main

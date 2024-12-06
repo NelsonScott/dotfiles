@@ -150,18 +150,20 @@ search() {
     local phrase=""
     local everywhere=false
     local filenames_only=false
+    local case_sensitive=false
     local search_scope="current directory"
     local search_type="file contents"
 
     # Parse options
     local OPTIND
-    while getopts ":he:n" opt; do
+    while getopts ":he:nc" opt; do
         case ${opt} in
             h )
-                echo "Usage: search [-h] [--everywhere] [-n] <phrase>"
+                echo "Usage: search [-h] [--everywhere] [-n] [-c] <phrase>"
                 echo "  -h: Help/show this message"
-                echo "  --everywhere: Search entire system"
+                echo "  -e: Search entire system"
                 echo "  -n: Filenames only"
+                echo "  -c: Case-sensitive search"
                 return 0
                 ;;
             e )
@@ -171,6 +173,9 @@ search() {
             n )
                 filenames_only=true
                 search_type="filenames"
+                ;;
+            c )
+                case_sensitive=true
                 ;;
             \? )
                 echo "Invalid option: $OPTARG" 1>&2
@@ -188,21 +193,41 @@ search() {
     phrase="$1"
 
     # Print search context
-    echo "🔍 Searching $search_type in $search_scope for: '$phrase'"
+    local case_text="case-insensitive"
+    if $case_sensitive; then
+        case_text="case-sensitive"
+    fi
+    echo "🔍 Searching $search_type in $search_scope ($case_text) for: '$phrase'"
 
     # Build command
     local cmd=""
     if $filenames_only; then
         if $everywhere; then
-            cmd="locate '$phrase'"
+            if $case_sensitive; then
+                cmd="locate '$phrase'"
+            else
+                cmd="locate -i '$phrase'"
+            fi
         else
-            cmd="find . -type f -iname '*$phrase*'"
+            if $case_sensitive; then
+                cmd="find . -type f -name '*$phrase*'"
+            else
+                cmd="find . -type f -iname '*$phrase*'"
+            fi
         fi
     else
         if $everywhere; then
-            cmd="find / -type f -print0 | xargs -0 grep -l -n '$phrase'"
+            if $case_sensitive; then
+                cmd="find / -type f -print0 | xargs -0 grep -l -n '$phrase'"
+            else
+                cmd="find / -type f -print0 | xargs -0 grep -i -l -n '$phrase'"
+            fi
         else
-            cmd="find . -type f -print0 | xargs -0 grep -l -n '$phrase'"
+            if $case_sensitive; then
+                cmd="find . -type f -print0 | xargs -0 grep -l -n '$phrase'"
+            else
+                cmd="find . -type f -print0 | xargs -0 grep -i -l -n '$phrase'"
+            fi
         fi
     fi
 
@@ -214,7 +239,11 @@ search() {
     if [[ "$filenames_only" == "false" ]]; then
         echo "$results" | while read -r file; do
             echo -e "\n📄 $file:"
-            grep -n "$phrase" "$file" | sed "s/$phrase/\x1b[1;31m$phrase\x1b[0m/g"
+            if $case_sensitive; then
+                grep -n "$phrase" "$file" | sed "s/$phrase/\x1b[1;31m$phrase\x1b[0m/g"
+            else
+                grep -i -n "$phrase" "$file" | sed "s/$phrase/\x1b[1;31m$phrase\x1b[0m/Ig"
+            fi
         done
     else
         echo "$results"

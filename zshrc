@@ -145,6 +145,7 @@ function connect() {
     fi
 }
 
+# TODO: ignore binary, & possibly hidden files like git.
 search() {
     # Default settings
     local phrase=""
@@ -245,5 +246,36 @@ search() {
         done
     else
         echo "$results"
+    fi
+}
+
+smart_shell() {
+    # Get the query from arguments
+    query="$*"
+    
+    # Call mods with everything in the prompt
+    result=$(mods \
+        --temp 0.1 \
+        --max-tokens 150 \
+        -f \
+        "You are a shell command expert. Respond ONLY with a JSON object that has two fields: 'explanation' (a brief one-line explanation) and 'command' (the exact command to run). Example response: {\"explanation\": \"Shows disk usage in human readable format\", \"command\": \"df -h\"}
+
+What is the shell command to $query")
+    
+    # Parse the JSON response
+    command=$(echo "$result" | grep -o '{.*}' | jq -r '.command')
+    explanation=$(echo "$result" | grep -o '{.*}' | jq -r '.explanation')
+    
+    echo "Explanation: $explanation"
+    echo "Command to execute: $command"
+    echo -e "\nExecute this command? (y/n)"
+    read confirm
+    
+    if [ "$confirm" = "y" ]; then
+        echo "Running command..."
+        echo "-------------------"
+        eval "$command"
+    else
+        echo "Command cancelled"
     fi
 }

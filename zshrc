@@ -279,3 +279,7 @@ What is the shell command to $query")
         echo "Command cancelled"
     fi
 }
+
+weather() {
+	curl "wttr.in/NYC?3&u"
+}

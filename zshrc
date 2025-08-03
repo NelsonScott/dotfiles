@@ -22,7 +22,7 @@ alias ccat="colorize"
 alias please='sudo $(fc -ln -1)'
 alias dc='docker-compose'
 alias nuke_mk='kubectl delete --all pods --namespace=default && kubectl delete --all deployments --namespace=default && kubectl delete --all services'
-alias chatgpt='mods'
+
 # Applications
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
@@ -282,4 +282,8 @@ What is the shell command to $query")
 
 weather() {
 	curl "wttr.in/NYC?3&u"
+}
+
+chatgpt(){
+    mods -f "$*"
 }

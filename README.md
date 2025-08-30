@@ -9,11 +9,11 @@ I manage these with manual symlinks, but the repo includes a Dotbot config if yo
 
 ### Manual installation (what I actually do)
 ```bash
-git clone https://github.com/yourusername/dotfiles.git ~/Documents/dotfiles
-ln -s ~/Documents/dotfiles/zshrc ~/.zshrc
-ln -s ~/Documents/dotfiles/vimrc ~/.vimrc
-ln -s ~/Documents/dotfiles/gitconfig ~/.gitconfig
-ln -s ~/Documents/dotfiles/bin ~/.local/bin
+git clone git@github.com:NelsonScott/dotfiles.git && cd dotfiles
+ln -s zshrc ~/.zshrc
+ln -s vimrc ~/.vimrc
+ln -s gitconfig ~/.gitconfig
+ln -s bin ~/.local/bin
 # etc...
 ```
 ## Dotbot installation (if you want automation)

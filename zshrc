@@ -22,6 +22,7 @@ alias ccat="colorize"
 alias please='sudo $(fc -ln -1)'
 alias dc='docker-compose'
 alias nuke_mk='kubectl delete --all pods --namespace=default && kubectl delete --all deployments --namespace=default && kubectl delete --all services'
+alias chat='chatgpt'
 
 # Applications
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'

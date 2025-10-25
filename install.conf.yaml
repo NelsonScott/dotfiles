@@ -11,3 +11,4 @@
     ~/.bashrc: bashrc
     ~/.gitconfig: gitconfig
     ~/.local/bin: bin
+    ~/Library/Application Support/mods/mods.yml: mods.yml

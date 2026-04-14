@@ -1,0 +1,5 @@
+# Pi zshrc
+
+# Colored prompt so you know you're on the Pi
+PROMPT='%F{green}┌[%n@%m:%~]%f
+%F{green}└$%f '

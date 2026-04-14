@@ -9,7 +9,7 @@ format: false
 role: "default"
 raw: false
 quiet: false
-temp: 1.0
+topp: -1
 no-limit: false
 word-wrap: 80
 include-prompt-args: false

@@ -262,7 +262,6 @@ smart_shell() {
     
     # Call mods with everything in the prompt
     result=$(mods \
-        --temp 0.1 \
         --max-tokens 150 \
         -f \
         "You are a shell command expert. Respond ONLY with a JSON object that has two fields: 'explanation' (a brief one-line explanation) and 'command' (the exact command to run). Example response: {\"explanation\": \"Shows disk usage in human readable format\", \"command\": \"df -h\"}
@@ -294,3 +293,5 @@ weather() {
 chatgpt(){
     mods -f "$*"
 }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

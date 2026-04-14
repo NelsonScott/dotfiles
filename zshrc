@@ -55,10 +55,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 
 # Just make whisperx available, don't need full conda
-export PATH="/opt/homebrew/Caskroom/miniconda/base/envs/whisperx/bin:$PATH"
+# export PATH="/opt/homebrew/Caskroom/miniconda/base/envs/whisperx/bin:$PATH"
 
 # alias when need to actually activate/switch conda envs
-alias conda-shell='eval "$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"'
+# alias conda-shell='eval "$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"'
 
 # App Configs
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh

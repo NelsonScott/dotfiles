@@ -2,11 +2,18 @@
 set -euo pipefail
 
 if [[ -z "${HF_TOKEN:-}" ]]; then
-    echo "Error: HF_TOKEN environment variable not set"
+    echo "Error: HF_TOKEN environment variable not set" >&2
     exit 1
 fi
 
-whisperx "$1" \
+if [[ $# -lt 1 ]]; then
+    echo "Usage: transcribe <audio-file>" >&2
+    exit 1
+fi
+
+WHISPERX_BIN="/opt/homebrew/Caskroom/miniconda/base/envs/whisperx/bin/whisperx"
+
+"$WHISPERX_BIN" "$1" \
     --model large-v2 \
     --compute_type float32 \
     --output_format txt \

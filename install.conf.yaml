@@ -10,5 +10,5 @@
     ~/.bash_profile: bash_profile
     ~/.bashrc: bashrc
     ~/.gitconfig: gitconfig
-    ~/.local/bin: bin
+    ~/.local/bin/transcribe: bin/transcribe
     ~/Library/Application Support/mods/mods.yml: mods.yml

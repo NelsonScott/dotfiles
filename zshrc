@@ -115,10 +115,19 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 eval $(thefuck --alias)
 
-# Manage nvm with homebrew
+# Manage nvm with homebrew — lazy-loaded so shells that never touch node start fast.
+# nvm.sh is ~4600 lines of shell + an eager .nvmrc scan; loading it eagerly cost ~0.8s/shell.
+# The stubs below source nvm on first use of nvm/node/npm/npx, then hand off transparently.
 export NVM_DIR="$HOME/.nvm"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+_load_nvm() {
+  unset -f nvm node npm npx _load_nvm
+  [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+  [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+}
+nvm()  { _load_nvm; nvm "$@"; }
+node() { _load_nvm; node "$@"; }
+npm()  { _load_nvm; npm "$@"; }
+npx()  { _load_nvm; npx "$@"; }
 
 # OpenCV
 export PATH="/opt/homebrew/opt/opencv@3/bin:$PATH"
